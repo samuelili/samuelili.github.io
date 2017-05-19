@@ -1,0 +1,30 @@
+.contact-button {
+  display: inline-block;
+  
+  height: 50px;
+  line-height: 50px;
+  
+  padding: 0 20px;
+  margin-top: 10px;
+  
+  border: 2pt solid #fff;
+  border-radius: 10px;
+  
+  background: transparent;
+  
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14pt;
+  
+  transition: all 300ms;
+  
+  &:hover {
+    transform: translateY(-10px);
+    height: 70px;
+    line-height: 70px;
+    padding: 0 30px;
+    border: 3pt solid #fff;
+    border-radius: 15px;
+  }
+}

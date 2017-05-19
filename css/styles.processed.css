@@ -1,0 +1,134 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+html,
+body {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  background: #ffffff;
+  padding: 0px;
+  color: #fff;
+}
+
+.center {
+  width: 720px;
+  height: 300px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -360px;
+  margin-top: -200px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(-40px);
+  /* animation */
+  animation-name: fade-in-from-top;
+  animation-fill-mode: forwards;
+  animation-duration: 500ms;
+  animation-delay: 2000ms;
+}
+
+@keyframes fade-in-from-top {
+  0% {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/**
+ * Transitions
+ */
+
+.fade-enter {
+  opacity: 0.01;
+  transform: translateY(40px);
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transform: translateY(0px);
+  transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+
+.fade-leave {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+.fade-leave.fade-leave-active {
+  opacity: 0.01;
+  transform: translateY(-40px);
+  transition: opacity 300ms ease-in, transform 300ms ease-in;
+}
+
+.avatar {
+  width: 300px;
+  max-width: 50vw;
+  border-radius: 50%;
+}
+
+.background {
+  position: fixed;
+  top: -25px;
+  left: -25px;
+  height: calc(100% + 50px);
+  width: calc(100% + 50px);
+  background-image: url("http://res.cloudinary.com/mashedpotats/image/upload/v1495156816/github-page-background_yic2jr.jpg");
+  background-size: cover;
+  opacity: 0;
+  filter: blur(0);
+  z-index: 0;
+  /* animation */
+  animation-name: fade-in-then-blur;
+  animation-fill-mode: forwards;
+  animation-duration: 1000ms;
+  animation-delay: 1000ms;
+}
+
+@keyframes fade-in-then-blur {
+  0% {
+    opacity: 0;
+    filter: blur(0);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    filter: blur(10px);
+  }
+}
+
+.contact-button {
+  display: inline-block;
+  height: 50px;
+  line-height: 50px;
+  padding: 0 20px;
+  margin-top: 10px;
+  border: 2pt solid #fff;
+  border-radius: 10px;
+  background: transparent;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14pt;
+  transition: all 300ms;
+}
+
+.contact-button:hover {
+  transform: translateY(-10px);
+  height: 70px;
+  line-height: 70px;
+  padding: 0 30px;
+  border: 3pt solid #fff;
+  border-radius: 15px;
+}
