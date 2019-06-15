@@ -13,13 +13,14 @@ body {
 }
 
 .center {
-  width: 720px;
+  width: 400px;
   height: 300px;
   position: absolute;
-  left: 50%;
-  top: 50%;
-  margin-left: -360px;
-  margin-top: -200px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
   text-align: center;
   
   opacity: 0;
