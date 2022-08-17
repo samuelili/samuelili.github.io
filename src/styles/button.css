@@ -1,0 +1,26 @@
+.button {
+    background: none;
+    font-weight: bold;
+    padding: 8px 12px;
+    background: #7ecfff;
+    border-radius: 2px;
+
+    border-width: 3px;
+    border-color: transparent;
+
+    cursor: pointer;
+
+    transition: box-shadow 300ms, border-color 300ms;
+}
+
+.button.slim {
+    padding: 4px 8px;
+    font-weight: normal;
+}
+
+.button:hover {
+    box-shadow: 2px 2px 10px 0px rgba(255, 255, 255, 0.75);
+    -webkit-box-shadow: 2px 2px 10px 0px rgba(255, 255, 255, 0.75);
+    -moz-box-shadow: 2px 2px 10px 0px rgba(255, 255, 255, 0.75);
+    border-color: rgba(0,0,0, 0.1);
+}

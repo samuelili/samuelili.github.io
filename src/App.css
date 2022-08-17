@@ -1,0 +1,55 @@
+body {
+  min-height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 16px;
+}
+
+body::before {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+
+  width: 100%;
+  height: 100%;
+
+  background: rgb(255,189,97);
+  background: radial-gradient(circle, rgba(255,189,97,1) 0%, rgba(255,235,81,1) 53%, rgba(255,222,0,1) 100%);
+
+  opacity: 0.4;
+  content: "";
+}
+
+.App {
+  position: relative;
+  z-index: 5;
+
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.DiffusedBox {
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+
+  padding: 16px;
+  transition: box-shadow 300ms;
+}
+
+.DiffusedBox.button {
+  cursor: pointer;
+}
+
+.DiffusedBox.button:hover {
+  box-shadow: 2px 2px 82px 0px rgba(255,255,255,0.75);
+  -webkit-box-shadow: 2px 2px 82px 0px rgba(255,255,255,0.75);
+  -moz-box-shadow: 2px 2px 82px 0px rgba(255,255,255,0.75);
+}
+
+* {
+  box-sizing: border-box;
+}

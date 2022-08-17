@@ -1,0 +1,36 @@
+#frame {
+    position: fixed;
+    top: -3000px;
+
+    border: 1px solid #ccc;
+    width: 2160px; /* 1080 * 2 */
+    height: 2160px;
+}
+
+#frame canvas {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+    /*box-shadow: rgba(0,0,0, 0.18) 0 8px 16px -1px;*/
+    border-radius: 8px;
+}
+
+#date {
+    position: absolute;
+    bottom: 0;
+    right: 128px;
+    height: 128px;
+    line-height: 128px;
+    vertical-align: middle;
+    font-size: 80px;
+    font-family: "Courier New";
+    font-weight: 700;
+    color: rgb(47, 22, 0);
+}
+
+* {
+    box-sizing: border-box;
+}
