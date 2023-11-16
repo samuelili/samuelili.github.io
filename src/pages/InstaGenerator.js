@@ -1,13 +1,13 @@
-import React, {useEffect, useRef, useState} from 'react';
-import FileChooser from "../components/FileChooser";
-import moment from "moment";
 import download from 'downloadjs';
 import html2canvas from "html2canvas";
+import moment from "moment";
+import React, { useEffect, useRef, useState } from 'react';
+import FileChooser from "../components/FileChooser";
 
-import '../styles/insta-generator.css';
 import Button from "../components/Button";
+import '../styles/insta-generator.css';
 
-const FilePreview = ({file, onChange}) => {
+const FilePreview = ({ file, onChange }) => {
     const imgRef = useRef(null);
 
     useEffect(() => {
@@ -22,14 +22,14 @@ const FilePreview = ({file, onChange}) => {
     }, [file]);
 
     return (
-        <div className={"DiffusedBox"} style={{display: 'flex', alignItems: "center"}}>
+        <div className={"DiffusedBox"} style={{ display: 'flex', alignItems: "center" }}>
             <div>
-                <img width={128} ref={imgRef} alt={""}/>
+                <img width={128} ref={imgRef} alt={""} />
             </div>
-            <div style={{marginLeft: 8}}>
+            <div style={{ marginLeft: 8 }}>
                 {file.name}
             </div>
-            <input type={'text'} defaultValue={file.date} style={{marginLeft: 4}} onChange={onChange}/>
+            <input type={'text'} defaultValue={file.date} style={{ marginLeft: 4 }} onChange={onChange} />
         </div>
     )
 }
@@ -111,7 +111,7 @@ const InstaGenerator = () => {
 
             {files.length > 0 ?
                 <>
-                    <div className={"DiffusedBox"} style={{marginTop: 16}}>
+                    <div className={"DiffusedBox"} style={{ marginTop: 16 }}>
                         <h3>Modify Dates</h3>
 
                         {files.map((file, i) =>
@@ -119,9 +119,9 @@ const InstaGenerator = () => {
                                 let newFiles = [...files]; // this is really expensive but whatever
                                 newFiles[i].date = e.target.value;
                                 setFiles(newFiles);
-                            }}/>)}
+                            }} />)}
                     </div>
-                    <div className={"DiffusedBox"} style={{marginTop: 16}}>
+                    <div className={"DiffusedBox"} style={{ marginTop: 16 }}>
                         <Button onClick={processImages}>Process Images!</Button>
                     </div>
                 </>

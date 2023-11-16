@@ -1,0 +1,30 @@
+:root {
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+  font-family: "Nunito", sans-serif;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  background: none;
+  border: 2px solid white;
+  color: white;
+  border-radius: 0.5rem;
+  font-family: inherit;
+  font-weight: 700;
+
+  transition: background-color 200ms;
+}
+
+button:hover {
+  background-color: #111;
+}
+
+input {
+  padding: 0.5rem 1rem;
+  background: #222;
+  border: none;
+  border-bottom: 2px solid white;
+  color: white;
+  font-family: inherit;
+}
