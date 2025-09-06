@@ -18,5 +18,5 @@ You'll need node js and to install some packages. The best tool I find for insta
 
 # 3. Distributing
 
-1. run `npm make`
+1. run `npm run make`
 2. Cry and realize Beba is on Mac so you need to send the files to sam so he can run it on his work laptop
