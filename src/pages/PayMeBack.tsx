@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { Fragment, useCallback, useMemo, useState } from 'react';
 import './PayMeBack.css';
 
 type Item = {
@@ -8,8 +8,17 @@ type Item = {
 }
 
 function PayMeBack() {
+  const [newParticipantName, setNewParticipantName] = useState("");
+
   const [participants, setParticipants] = useState<string[]>([]);
   const [items, setItems] = useState<Item[]>([]);
+
+  const handleAddParticipant = useCallback(() => {
+    if (newParticipantName.length === 0) return;
+
+    setParticipants([...participants, newParticipantName]);
+    setNewParticipantName("");
+  }, [participants, newParticipantName]);
 
   const perParticipant = useMemo(() => {
     const out: {
@@ -26,59 +35,65 @@ function PayMeBack() {
   }, [participants, items]);
 
   return (
-    <div style={{maxWidth: "24rem", margin: "0 auto", display: "flex", flexDirection: "column", alignItems: "center"}}>
-      <h1>Pay Me Back</h1>
-      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-        <h2>Participants</h2>
-        <button onClick={() => setParticipants([...participants, ""])}>Add</button>
+    <div className={"root"}>
+      <h1 className="text-4xl font-bold">Pay Me Back</h1>
+      <p className="mt-2">Splitting a check has never been this easy</p>
+
+      <h2 className="mt-4">Participants</h2>
+
+      <div className="flex gap-2">
+        <input placeholder='Add Participant' value={newParticipantName} onChange={e => setNewParticipantName(e.currentTarget.value)} className="flex-1" />
+        <button onClick={handleAddParticipant} data-primary disabled={newParticipantName.length === 0}>Add</button>
       </div>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-        {participants.map((participant, i) => <input value={participant} key={i} style={{ width: "12rem" }} onChange={e => {
-          const copy = [...participants];
-          copy[i] = e.currentTarget.value;
-          setParticipants(copy);
-        }} />)}
-      </div>
-      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-        <h2>Items</h2>
-        <button onClick={() => setItems([...items, { name: "", price: 0, participants: [] }])}>Add</button>
+      <div className="flex flex-row gap-2 flex-wrap mt-2">
+        {participants.map((participant) => <div className={"name-display"}>{participant}</div>)}
       </div>
 
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+      <h2>Items</h2>
+
+      <div className="flex flex-col gap-2">
         {items.map((item, i) => (
-          <div key={i} style={{ display: "flex", gap: "0.5rem" }}>
-            <input style={{ width: "12rem" }} value={item.name} onChange={e => {
-              const copy = [...items];
-              copy[i].name = e.currentTarget.value;
-              setItems(copy);
-            }} />
-
-            <input style={{ width: "4rem" }} type={"number"} value={item.price} onChange={e => {
-              const copy = [...items];
-              copy[i].price = Number(e.currentTarget.value);
-              setItems(copy);
-            }} />
-
-            {participants.map(participant => (
-              <button onClick={() => {
-                const copy = [...items];
-                if (!copy[i].participants.includes(participant))
-                  copy[i].participants.push(participant);
-                else
-                  copy[i].participants = copy[i].participants.filter(p => p !== participant);
-
-                setItems(copy);
-              }} style={item.participants.includes(participant) ? { background: "#ccc", color: "#333" } : {}}>
-                {participant}
+          <Fragment key={i}>
+            <div key={i} className="flex gap-2">
+              <button className="icon-button">
+                <img src="./trash.svg" />
               </button>
-            ))}
-          </div>
+              <input className="flex-1" value={item.name} onChange={e => {
+                const copy = [...items];
+                copy[i].name = e.currentTarget.value;
+                setItems(copy);
+              }} />
+
+              <input className="w-16" type={"number"} value={item.price} onChange={e => {
+                const copy = [...items];
+                copy[i].price = Number(e.currentTarget.value);
+                setItems(copy);
+              }} />
+            </div>
+            <div className="flex gap-2">
+              {participants.map(participant => (
+                <button data-secondary onClick={() => {
+                  const copy = [...items];
+                  if (!copy[i].participants.includes(participant))
+                    copy[i].participants.push(participant);
+                  else
+                    copy[i].participants = copy[i].participants.filter(p => p !== participant);
+
+                  setItems(copy);
+                }} className={item.participants.includes(participant) ? "bg-[#ccc] text-[#333]" : ""}>
+                  {participant}
+                </button>
+              ))}
+            </div>
+          </Fragment>
         ))}
       </div>
 
-      <div style={{marginTop: 32}}>
+      <button data-primary className="w-full" onClick={() => setItems([...items, { name: "", price: 0, participants: [] }])}>Add Item</button>
+
+      <div className="mt-8">
         {Object.entries(perParticipant).map(([name, amount]) => (
           <div>
             <b>{name}</b>: ${amount}

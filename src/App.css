@@ -1,55 +1,42 @@
-body {
-  min-height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 16px;
-}
-
-body::before {
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1;
-
-  width: 100%;
-  height: 100%;
-
-  background: rgb(255,189,97);
-  background: radial-gradient(circle, rgba(255,189,97,1) 0%, rgba(255,235,81,1) 53%, rgba(255,222,0,1) 100%);
-
-  opacity: 0.4;
-  content: "";
-}
-
-.App {
-  position: relative;
-  z-index: 5;
-
-  width: 100%;
-  max-width: 1024px;
+#root {
+  max-width: 1280px;
   margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
 }
 
-.DiffusedBox {
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(8px);
-
-  padding: 16px;
-  transition: box-shadow 300ms;
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-.DiffusedBox.button {
-  cursor: pointer;
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.DiffusedBox.button:hover {
-  box-shadow: 2px 2px 82px 0px rgba(255,255,255,0.75);
-  -webkit-box-shadow: 2px 2px 82px 0px rgba(255,255,255,0.75);
-  -moz-box-shadow: 2px 2px 82px 0px rgba(255,255,255,0.75);
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
 }
 
-* {
-  box-sizing: border-box;
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
 }

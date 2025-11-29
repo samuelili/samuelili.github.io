@@ -7,16 +7,33 @@ import FileChooser from "../components/FileChooser";
 import Button from "../components/Button";
 import '../styles/insta-generator.css';
 
-const FilePreview = ({ file, onChange }) => {
-    const imgRef = useRef(null);
+interface FileItem {
+    name: string;
+    date: string;
+    raw: File;
+}
+
+interface FilePreviewProps {
+    file: FileItem;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const FilePreview: React.FC<FilePreviewProps> = ({ file, onChange }) => {
+    const imgRef = useRef<HTMLImageElement>(null);
 
     useEffect(() => {
         const imgEl = imgRef.current;
+        if (!imgEl) return;
+
         const reader = new FileReader();
 
         imgEl.title = file.name;
 
-        reader.onload = e => imgEl.src = e.target.result;
+        reader.onload = e => {
+            if (e.target?.result && typeof e.target.result === 'string') {
+                imgEl.src = e.target.result;
+            }
+        };
 
         reader.readAsDataURL(file.raw);
     }, [file]);
@@ -37,23 +54,29 @@ const FilePreview = ({ file, onChange }) => {
 const InstaGenerator = () => {
     const HORIZONTAL_BOUND = 2160 - 2 * 128;
     const VERTICAL_BOUND = 2160 - 2 * 128;
-    const canvasRef = useRef(null);
-    const frameRef = useRef(null);
-    const dateRef = useRef(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const frameRef = useRef<HTMLDivElement>(null);
+    const dateRef = useRef<HTMLDivElement>(null);
 
-    const [files, setFiles] = useState([]);
+    const [files, setFiles] = useState<FileItem[]>([]);
 
 
-    const processImage = (file, date) => {
+    const processImage = (file: File, date: string) => {
         let frame = frameRef.current;
         let dateText = dateRef.current;
         let canvas = canvasRef.current;
+
+        if (!frame || !dateText || !canvas) return;
+
         let ctx = canvas.getContext('2d');
+        if (!ctx) return;
 
         let reader = new FileReader();
         reader.onload = function (event) {
             let img = new Image();
             img.onload = function () {
+                if (!canvas || !ctx || !dateText || !frame) return;
+
                 let aspectRatio = img.width / img.height;
                 if (img.height > img.width) {
                     canvas.width = VERTICAL_BOUND * aspectRatio;
@@ -71,7 +94,9 @@ const InstaGenerator = () => {
                     download(base64image, `${file.name}-framed.png`, "image/png");
                 });
             }
-            img.src = event.target.result;
+            if (event.target?.result && typeof event.target.result === 'string') {
+                img.src = event.target.result;
+            }
         }
         reader.readAsDataURL(file);
     }
@@ -92,7 +117,8 @@ const InstaGenerator = () => {
             </div>
             <div className={"DiffusedBox"}>
                 <FileChooser onSelect={files => {
-                    let selected = [];
+                    if (!files) return;
+                    let selected: FileItem[] = [];
                     for (let i = 0; i < files.length; i++) {
                         selected.push({
                             name: files[i].name,
