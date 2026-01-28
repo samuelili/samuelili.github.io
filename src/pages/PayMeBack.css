@@ -1,92 +1,121 @@
+@import "@fontsource/inter";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/inter/900.css";
+
 :root {
   color: black;
-  background-color: #f4f4f4;
-  font-family: "Nunito", sans-serif;
+  background-color: #F6F6F6;
+  font-family: "Inter", sans-serif;
   --primary: #FF4385;
+  --subtle: #BABABA;
+}
+
+@layer utility {
+  .text-subtle {
+    color: #A6A6A6;
+  }
 }
 
 .root {
-  max-width: 28rem;
+  max-width: 30rem;
   margin: 0 auto;
   border-radius: 2rem;
   background: #fff;
-  padding: 1rem 4rem 4rem;
+  border: 1px solid #DFDFDF;
+  padding: 4rem;
 }
 
-@layer base {
-  button {
-    padding: 0.5rem 1rem;
-    background: none;
-    border: 2px solid white;
-    color: black;
-    border-radius: 0.375rem;
-    font-family: inherit;
-    font-weight: 700;
+.button,
+.name-display {
+  padding: 0.5rem 1rem;
+  background: none;
+  border: 1px solid white;
+  color: black;
+  border-radius: 0.625rem;
+  font-family: inherit;
+  font-weight: 700;
 
-    transition: background-color 200ms;
-  }
+  transition: background-color 200ms, border-color 200ms;
+}
 
-  button[data-primary] {
-    background: var(--primary);
-    border-color: var(--primary);
-    color: white;
-    font-weight: 700;
-  }
+.button.primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+  font-weight: 700;
+}
 
-  button[data-primary]:focus {
-    background: var(--primary);
-    border-color: var(--primary);
-  }
+.button.primary:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+}
 
-  button[data-secondary] {
-    background: #D9D9D9;
-    border-color: #D9D9D9;
-    color: #3E3E3E;
-    font-weight: 500;
-  }
+.button.primary:disabled {
+  background: #CCC;
+  border-color: #CCC;
+  color: #FFF;
+}
 
-  button[data-secondary]:focus,
-  button[data-secondary][data-selected~="true"] {
-    border-color: var(--primary);
-  }
+.button.secondary,
+.name-display {
+  background: #F4F4F4;
+  border-color: #F4F4F4;
+  color: #3E3E3E;
+  font-weight: 500;
+}
 
-  button:focus,
-  button:focus-visible {
-    outline: none;
-  }
+.button.secondary:hover {
+  background-color: #eee;
+}
 
-  button:hover {
-    /* background-color: #111; */
-  }
+.button.secondary[data-selected~="true"] {
+  border-color: var(--primary);
+}
 
-  .icon-button {
-    width: 24px;
-    height: 24px;
-  }
+.button:focus,
+.button:focus-visible {
+  outline: none;
+}
 
-  .icon-button img {
-    width: 24px;
-    height: 24px;
-  }
+.button:hover {
+  /* background-color: #111; */
+}
 
-  .name-display {
-    padding: 0.5rem 1rem;
-    background: #ccc;
-    color: #333;
-    border-radius: 0.25rem;
-  }
+.icon-button {
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+}
 
-  input {
-    padding: 0.5rem 0.5rem;
-    /* background: #222; */
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    /* color: white; */
-    font-family: inherit;
-  }
+.icon-button img {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+}
 
-  input:focus,
-  input:focus-visible {
-    outline: 1px solid var(--primary);
-  }
+.name-display {}
+
+.input {
+  padding: 0.5rem .75rem;
+  /* background: #222; */
+  border: 1px solid #DDD;
+  border-radius: 8px;
+  /* color: white; */
+  font-family: inherit;
+  min-width: 0;
+}
+
+.input:focus,
+.input:focus-visible {
+  outline: 1px solid var(--primary);
+}
+
+.total-name {
+  color: #3E3E3E;
+  font-weight: 500;
+}
+
+.total-price {
+  color: #685959;
+  font-weight: 700;
 }
