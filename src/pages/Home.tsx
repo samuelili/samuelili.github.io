@@ -16,6 +16,12 @@ const Home = () => {
                     Pay-Me-Back
                 </div>
             </Link>
+
+            <a href="/flora/">
+                <div className={"DiffusedBox button"}>
+                    Flora
+                </div>
+            </a>
         </div>
     )
 }
