@@ -34,7 +34,7 @@ const PayMeBackScreenshot = forwardRef<HTMLDivElement, { calculatedOutput: Calcu
                     <h3 className={styles.Title}>Pay Me Back</h3>
                     <img src={smileSvg} width={32} className="ml-2 mt-3" style={{ width: 32 }} />
                 </div>
-                <a className={styles.Link}>samuelili.github.io/#/pay-me-back</a>
+                <a className={styles.Link}>samuelili.github.io/pay-me-back</a>
             </div>
         </div>
     )

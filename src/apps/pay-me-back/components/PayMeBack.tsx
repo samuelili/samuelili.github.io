@@ -90,11 +90,31 @@ function PayMeBack() {
       useCORS: true,
       allowTaint: true
     }).then((canvas) => {
-      // Convert canvas to data URL and download as PNG
-      const link = document.createElement('a');
-      link.download = `pay-me-back-${Date.now()}.png`;
-      link.href = canvas.toDataURL();
-      link.click();
+      canvas.toBlob(async (blob) => {
+        if (!blob) return;
+
+        const filename = `pay-me-back-${Date.now()}.png`;
+        const file = new File([blob], filename, { type: 'image/png' });
+
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({
+              files: [file],
+              title: 'Pay Me Back Receipt',
+            });
+            return; // Successfully shared
+          } catch (error: any) {
+            if (error.name === 'AbortError') return; // User cancelled the share dialog
+            console.error("Share failed, falling back to download:", error);
+          }
+        }
+
+        // Fallback: Convert canvas to data URL and download as PNG
+        const link = document.createElement('a');
+        link.download = filename;
+        link.href = canvas.toDataURL();
+        link.click();
+      }, 'image/png');
     }).catch((error) => {
       console.error("Error generating screenshot:", error);
     });
