@@ -2,7 +2,7 @@ import { HashRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import Home from './pages/Home'
 import InstaGenerator from './pages/InstaGenerator'
-import PayMeBack from './pages/PayMeBack'
+import PayMeBack from './apps/pay-me-back/components/PayMeBack'
 
 function App() {
   return (

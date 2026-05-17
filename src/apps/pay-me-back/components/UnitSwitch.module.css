@@ -1,0 +1,61 @@
+.Container {
+    position: relative;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    
+    width: fit-content;
+
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    cursor: pointer;
+    
+    padding: 0.125rem;    
+    
+    transition: background-color 140ms;
+}
+
+
+.Container:hover {
+    background: var(--primary-light);
+}
+
+.Option {
+    position: relative;
+    z-index: 1;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    padding: 0.25rem 0.5rem;
+    
+    font-size: 0.625rem;
+    transition: color 140ms ease-out;
+}
+
+.Option[data-selected~="true"] {
+    color: white;
+}
+
+.Indicator {
+    position: absolute;
+    top: 0.125rem;
+    bottom: 0.125rem;
+    z-index: 0;
+
+    width: calc(50% - 0.25rem);
+    background-color: var(--primary);
+    border-radius: 6px;
+    transition: left 140ms ease-out;
+}
+
+
+.Indicator[data-unit~="dollar"] {
+    left: 0.125rem;
+}
+
+.Indicator[data-unit~="percent"] {
+    left: calc(50% + 0.125rem);
+}

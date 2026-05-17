@@ -8,7 +8,9 @@
   background-color: #F6F6F6;
   font-family: "Inter", sans-serif;
   --primary: #FF4385;
+  --primary-light: #FDF2F5;
   --subtle: #BABABA;
+  --border-subtle: #DDD;
 }
 
 @layer utility {
@@ -24,6 +26,16 @@
   background: #fff;
   border: 1px solid #DFDFDF;
   padding: 4rem;
+}
+
+@media screen and (max-width: 640px) {
+  #root {
+    padding: 1.5rem;
+  }
+
+  .root {
+    padding: 2rem;
+  }
 }
 
 .button,

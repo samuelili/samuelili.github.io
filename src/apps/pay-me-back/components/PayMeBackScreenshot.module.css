@@ -1,0 +1,28 @@
+.RootContainer {
+    position: fixed;
+    top: 200%;
+
+    background: #fff;
+    padding: 1rem;
+    width: 360px;
+}
+
+.Container {
+    border: 1px solid var(--border-subtle);
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+}
+
+.Title {
+    margin-left: 0.25rem;
+    font-weight: 900;
+}
+
+.Link {
+    display: block;
+    line-height: 1;
+    margin: 0;
+    font-size: 0.625rem;
+    font-style: italic;
+    color: var(--primary);
+}
