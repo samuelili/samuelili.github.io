@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import styles from "./RecieptScanner.module.css";
-import { IconCamera, IconUpload } from "@tabler/icons-react";
-import useScanner from "./useScanner";
+import { IconCamera, IconUpload, IconKey } from "@tabler/icons-react";
 import Camera from "./Camera";
 import ApiKey from "./ApiKey";
 
@@ -16,12 +15,13 @@ interface ReceiptScannerStepsProps {
     open: boolean;
     onClose: () => void;
     onFileSelected: (file: File) => void;
+    isConfigured: boolean;
+    handleSaveKey: (key: string) => void;
 }
 
-const ReceiptScannerSteps = ({ open, onClose, onFileSelected }: ReceiptScannerStepsProps) => {
+const ReceiptScannerSteps = ({ open, onClose, onFileSelected, isConfigured, handleSaveKey }: ReceiptScannerStepsProps) => {
     const [step, setStep] = useState<Step>(Step.NONE);
     const [visible, setVisible] = useState(false);
-    const { isConfigured } = useScanner();
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -101,7 +101,11 @@ const ReceiptScannerSteps = ({ open, onClose, onFileSelected }: ReceiptScannerSt
                 data-visible={step === Step.CHOICE}
                 onClick={e => e.stopPropagation()}
             >
-                <div className={"flex gap-4"}>
+                <button className={styles.ChangeApiKeyButton} onClick={() => setStep(Step.API_KEY)}>
+                    <IconKey size={14} />
+                    Change API Key
+                </button>
+                <div className={"mt-4 flex gap-4"}>
                     <button className={styles.OptionButton} onClick={() => setStep(Step.CAMERA)}>
                         <IconCamera />
                         Take Picture
@@ -119,13 +123,17 @@ const ReceiptScannerSteps = ({ open, onClose, onFileSelected }: ReceiptScannerSt
                 data-visible={step === Step.API_KEY}
                 onClick={e => e.stopPropagation()}
             >
-                <ApiKey onConfigured={() => setStep(Step.CHOICE)} />
+                <ApiKey
+                    onConfigured={() => setStep(Step.CHOICE)}
+                    isConfigured={isConfigured}
+                    handleSaveKey={handleSaveKey}
+                />
             </div>
 
             {step === Step.CAMERA && (
                 <Camera
                     onCapture={handleCameraCapture}
-                    onCancel={handleClose}
+                    onCancel={() => setStep(Step.CHOICE)}
                     status="idle"
                     errorMsg=""
                 />

@@ -14,6 +14,56 @@ export type ScanResult = {
     tip: number;
 };
 
+const getFriendlyErrorMessage = (err: any): string => {
+    if (!err) return "An unknown error occurred.";
+
+    const rawMessage = err.message || String(err);
+
+    // Attempt to parse Google API JSON error
+    try {
+        if (typeof rawMessage === "string" && rawMessage.trim().startsWith("{")) {
+            const parsed = JSON.parse(rawMessage);
+            if (parsed && parsed.error) {
+                const apiError = parsed.error;
+                const status = apiError.status;
+                const apiMessage = apiError.message || "";
+
+                // Check details for specific error reasons
+                const details = apiError.details || [];
+                const isApiKeyInvalid = details.some((d: any) => d.reason === "API_KEY_INVALID") ||
+                    apiMessage.toLowerCase().includes("api key not valid") ||
+                    apiMessage.toLowerCase().includes("invalid api key");
+
+                if (isApiKeyInvalid) {
+                    return "The API key you provided is invalid. Please check your Gemini API key and try again.";
+                }
+
+                if (status === "RESOURCE_EXHAUSTED" || apiMessage.toLowerCase().includes("quota")) {
+                    return "Gemini API rate limit or quota exceeded. Please wait a moment and try again.";
+                }
+
+                if (apiMessage) {
+                    return apiMessage;
+                }
+            }
+        }
+    } catch (e) {
+        // Fallback to text matching if parsing failed
+    }
+
+    // String matching on raw message
+    const lowercaseMsg = rawMessage.toLowerCase();
+    if (lowercaseMsg.includes("api_key_invalid") || lowercaseMsg.includes("api key not valid") || lowercaseMsg.includes("invalid api key")) {
+        return "The API key you provided is invalid. Please check your Gemini API key and try again.";
+    }
+
+    if (lowercaseMsg.includes("quota") || lowercaseMsg.includes("resource_exhausted") || lowercaseMsg.includes("rate limit")) {
+        return "Gemini API rate limit or quota exceeded. Please wait a moment and try again.";
+    }
+
+    return rawMessage || "Failed to scan receipt. Please verify your internet connection and API key.";
+};
+
 const useScanner = () => {
     const [apiKey, setApiKey] = useState("");
     const [isConfigured, setIsConfigured] = useState(false);
@@ -39,10 +89,13 @@ const useScanner = () => {
         localStorage.removeItem("gemini_api_key");
         setApiKey("");
         setIsConfigured(false);
+        setErrorMsg("");
+        setStatus("idle");
     }, []);
 
     const scanReceipt = useCallback(async (file: File): Promise<ScanResult> => {
-        if (!apiKey) {
+        const keyToUse = apiKey || localStorage.getItem("gemini_api_key") || "";
+        if (!keyToUse) {
             console.error("[useScanner] Attempted to scan without an API Key configured.");
             throw new Error("API Key is not configured");
         }
@@ -72,7 +125,7 @@ IMPORTANT RULES:
 2. If an item name spans multiple lines (e.g. "Rack of Lamb" on line 1 with no price, and "Medium" on line 2 with a price), combine them into a single item: "Rack of Lamb (Medium)" and use the price.
 3. If an item has add-ons listed below it with their OWN additional prices, SUM those prices into the base item's price and combine the names.`;
 
-            const ai = new GoogleGenAI({ apiKey: apiKey });
+            const ai = new GoogleGenAI({ apiKey: keyToUse });
 
             console.log("[useScanner] Sending content generation request to Gemini (gemini-3-flash-preview)...");
             const response = await ai.models.generateContent({
@@ -109,7 +162,7 @@ IMPORTANT RULES:
                         required: ["items", "tax", "tip"]
                     },
                     thinkingConfig: {
-                        thinkingLevel: ThinkingLevel.LOW
+                        thinkingLevel: ThinkingLevel.MEDIUM
                     }
                 }
             });
@@ -118,7 +171,7 @@ IMPORTANT RULES:
             console.log("[useScanner] Received response from Gemini. Raw Output:\n", textOutput);
 
             const resultObj = JSON.parse(textOutput);
-            
+
             // Map parsed items to include empty participants list
             const items = (resultObj.items || []).map((item: any) => ({
                 name: item.name || "Unknown Item",
@@ -148,8 +201,7 @@ IMPORTANT RULES:
 
         } catch (err: any) {
             console.error("[useScanner] Error during scanning/parsing flow:", err);
-            const msg = err.message || "Failed to parse image. Please check your API key and try again.";
-            setErrorMsg(msg);
+            setErrorMsg(getFriendlyErrorMessage(err));
             setStatus("error");
             throw err;
         }

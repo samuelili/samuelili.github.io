@@ -1,25 +1,22 @@
-import { useState } from "react";
-import useScanner from "./useScanner";
+import { useState, FormEvent } from "react";
 
 interface ApiKeyProps {
     onConfigured?: () => void;
+    isConfigured: boolean;
+    handleSaveKey: (key: string) => void;
 }
 
-const ApiKey = ({ onConfigured }: ApiKeyProps) => {
-    const { handleSaveKey, isConfigured } = useScanner();
+const ApiKey = ({ onConfigured, isConfigured, handleSaveKey }: ApiKeyProps) => {
     const [inputKey, setInputKey] = useState("");
 
-    const handleSave = () => {
+    const handleSubmit = (e: FormEvent) => {
+        e.preventDefault();
         if (!inputKey.trim()) return;
         handleSaveKey(inputKey);
         if (onConfigured) {
             onConfigured();
         }
     };
-
-    if (isConfigured) {
-        return null;
-    }
 
     return (
         <div className="bg-white rounded-lg p-4 shadow-lg flex flex-col mx-4 mt-6 border border-gray-200">
@@ -34,7 +31,7 @@ const ApiKey = ({ onConfigured }: ApiKeyProps) => {
                 <br />I would love
                 to not have to use any sort of paid service! But local LLM technology has yet to mature and be available... so here we are :)</p>
 
-            <div className="mt-4 flex gap-2">
+            <form onSubmit={handleSubmit} className="mt-4 flex gap-2">
                 <input
                     type="password"
                     value={inputKey}
@@ -42,13 +39,22 @@ const ApiKey = ({ onConfigured }: ApiKeyProps) => {
                     className="flex-1 input"
                     placeholder="AIzaSy..."
                 />
+                {isConfigured && onConfigured && (
+                    <button
+                        type="button"
+                        onClick={onConfigured}
+                        className="button secondary whitespace-nowrap"
+                    >
+                        Cancel
+                    </button>
+                )}
                 <button
-                    onClick={handleSave}
+                    type="submit"
                     className="button primary whitespace-nowrap"
                 >
                     Save Key
                 </button>
-            </div>
+            </form>
 
             <p className="text-[10px] text-gray-400 mt-2">
                 Get a free key from <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer" className="underline text-blue-600">Google AI Studio</a>.

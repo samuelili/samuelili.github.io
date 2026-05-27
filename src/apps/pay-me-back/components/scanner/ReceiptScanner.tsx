@@ -12,7 +12,7 @@ type Item = {
 
 export default function ReceiptScanner({ onScanResult, className }: { onScanResult: (items: Item[], tax?: number, tip?: number) => void, className?: string }) {
     const [scannerOpen, setScannerOpen] = useState(false);
-    const { status, errorMsg, scanReceipt } = useScanner();
+    const { status, errorMsg, scanReceipt, isConfigured, handleSaveKey, handleClearKey } = useScanner();
 
     const handleFileSelected = async (file: File) => {
         try {
@@ -54,8 +54,21 @@ export default function ReceiptScanner({ onScanResult, className }: { onScanResu
             </button>
 
             {status === "error" && (
-                <div className="mt-3 text-xs text-red-600 p-2 bg-red-50 rounded border border-red-200 text-center">
-                    <strong>Error:</strong> {errorMsg}
+                <div className="mt-3 text-xs text-red-600 p-2.5 bg-red-50 rounded border border-red-200 text-center flex flex-col gap-2 items-center shadow-sm">
+                    <span>
+                        <strong>Error:</strong> {errorMsg}
+                    </span>
+                    {errorMsg.toLowerCase().includes("api key") && (
+                        <button
+                            className="text-[10px] text-red-700 underline font-semibold hover:text-red-900 cursor-pointer"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleClearKey();
+                            }}
+                        >
+                            Reset Saved API Key
+                        </button>
+                    )}
                 </div>
             )}
 
@@ -63,6 +76,8 @@ export default function ReceiptScanner({ onScanResult, className }: { onScanResu
                 open={scannerOpen}
                 onClose={() => setScannerOpen(false)}
                 onFileSelected={handleFileSelected}
+                isConfigured={isConfigured}
+                handleSaveKey={handleSaveKey}
             />
         </>
     );
