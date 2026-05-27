@@ -7,6 +7,7 @@ import { calculate } from './payMeBackMath';
 import PayMeBackHead from './PayMeBackHead';
 import PayMeBackScreenshot from './PayMeBackScreenshot';
 import html2canvas from 'html2canvas';
+import ReceiptScanner from './scanner/ReceiptScanner';
 
 type Item = {
   "name": string;
@@ -143,7 +144,7 @@ function PayMeBack() {
 
       <h2 className="mt-8 font-bold">Items</h2>
 
-      <div>
+      <div className="mt-6">
         {items.map((item, i) => (
           <Fragment key={i}>
             <div key={i} className={`flex gap-2 mt-6`}>
@@ -180,6 +181,16 @@ function PayMeBack() {
           </Fragment>
         ))}
       </div>
+
+      <ReceiptScanner className={"mt-4"} onScanResult={(newItems, tax, tip) => {
+        setItems(prev => [...prev, ...newItems]);
+        if (tax !== undefined && tax > 0) {
+          setTaxAmount(tax.toString());
+        }
+        if (tip !== undefined && tip > 0) {
+          setTipAmount(tip.toString());
+        }
+      }} />
 
       <button className="button primary mt-6 w-full" disabled={participants.length === 0} onClick={() => setItems([...items, { name: "", price: "", participants: [] }])}>Add Item</button>
 

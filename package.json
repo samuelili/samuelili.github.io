@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
+    "@google/genai": "^2.3.0",
     "@tabler/icons-react": "^3.35.0",
     "@tailwindcss/vite": "^4.1.17",
     "downloadjs": "^1.4.7",
@@ -37,6 +38,7 @@
     "globals": "^16.5.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
-    "vite": "^8.0.0"
+    "vite": "^8.0.0",
+    "vitest": "^4.1.6"
   }
 }

@@ -1,0 +1,21 @@
+.Container {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 1rem;
+
+    border-radius: 0.5rem;
+    border: 1px dotted var(--primary);
+    background: rgba(from var(--primary) r g b / 0.018);
+    color: #634d54ff;
+    cursor: pointer;
+    
+    transition: all 200ms;
+}
+
+.Container:hover {
+    background: rgba(from var(--primary) r g b / 0.05);
+}
