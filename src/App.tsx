@@ -1,8 +1,15 @@
+import { useEffect } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import Home from './pages/Home'
 import InstaGenerator from './pages/InstaGenerator'
-import PayMeBack from './apps/pay-me-back/components/PayMeBack'
+
+function PayMeBackRedirect() {
+  useEffect(() => {
+    window.location.replace('https://gimmemy.money')
+  }, [])
+  return null
+}
 
 function App() {
   return (
@@ -11,7 +18,7 @@ function App() {
         <Routes>
           <Route path={"/"} element={<Home />} />
           <Route path={"/insta-generator"} element={<InstaGenerator />} />
-          <Route path={"/pay-me-back"} element={<PayMeBack />} />
+          <Route path={"/pay-me-back"} element={<PayMeBackRedirect />} />
         </Routes>
       </BrowserRouter>
     </>

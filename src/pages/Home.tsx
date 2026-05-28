@@ -11,11 +11,11 @@ const Home = () => {
                 </div>
             </Link>
 
-            <Link to={"/pay-me-back"}>
+            <a href="https://gimmemy.money">
                 <div className={"DiffusedBox button"}>
                     Pay-Me-Back
                 </div>
-            </Link>
+            </a>
 
             <a href="/flora/">
                 <div className={"DiffusedBox button"}>
