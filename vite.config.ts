@@ -21,6 +21,17 @@ export default defineConfig({
             fs.copyFileSync(src, dest)
         }
       }
+    },
+    {
+      name: 'serve-flora-static',
+      configureServer(server) {
+        server.middlewares.use((req, res, next) => {
+          if (req.url === '/flora' || req.url === '/flora/') {
+            req.url = '/flora/index.html';
+          }
+          next();
+        });
+      }
     }
   ],
 })
