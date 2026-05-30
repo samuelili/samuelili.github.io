@@ -10,7 +10,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    react(), 
+    react(),
     tailwindcss(),
     {
       name: 'github-pages-spa',
@@ -25,7 +25,7 @@ export default defineConfig({
     {
       name: 'serve-flora-static',
       configureServer(server) {
-        server.middlewares.use((req, res, next) => {
+        server.middlewares.use((req, _, next) => {
           if (req.url === '/flora' || req.url === '/flora/') {
             req.url = '/flora/index.html';
           }
