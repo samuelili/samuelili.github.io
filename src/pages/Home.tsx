@@ -20,6 +20,10 @@ const Home = () => {
           <div className={"DiffusedBox button"}>{">"} Pay-Me-Back</div>
         </a>
 
+        <a href="https://d3pnhhecbcnvzs.cloudfront.net/">
+          <div className={"DiffusedBox button"}>{">"} Calendly</div>
+        </a>
+
         <a href="/flora/">
           <div className={"DiffusedBox button"}>{">"} Flora</div>
         </a>
